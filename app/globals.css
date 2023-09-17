@@ -1,0 +1,24 @@
+:root {
+  --bg-color: #efefef;
+  --text-color: #404040;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
