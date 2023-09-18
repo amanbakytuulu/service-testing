@@ -1,9 +1,9 @@
 import { types, flow } from 'mobx-state-tree';
-import axios from 'axios';
+import { FREE_IMAGE_KEY } from '@/constants';
+import { api } from '@/config/api';
 
 export const ImageUploadStore = types
   .model('ImageUploadStore', {
-    uploadedImageUrl: types.optional(types.string, ''),
     loading: types.optional(types.boolean, false),
     error: types.optional(types.string, ''),
   })
@@ -14,16 +14,16 @@ export const ImageUploadStore = types
         self.error = '';
 
         const formData = new FormData();
-        formData.append('key', '6d207e02198a847aa98d0a2a901485a5');
+        formData.append('key', FREE_IMAGE_KEY);
         formData.append('action', 'upload');
         formData.append('source', imageFile);
 
-        const response = yield axios.post('https://freeimage.host/api/1/upload', formData);
-
-        self.uploadedImageUrl = response.data.image.url;
+        const response = yield api.post('api/1/upload', formData);
+        
+        return response.data.image.url;
       } catch (error) {
-        self.error = 'Произошла ошибка при добавлении пользователя';
-        console.error('Failed to upload image', error);
+        self.error = 'Произошла ошибка при отправке фото';
+        console.error('Ошибка при отправке запроса на сервер', error);
       } finally {
         self.loading = false;
       }

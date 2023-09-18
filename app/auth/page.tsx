@@ -22,7 +22,7 @@ const Authorization = observer(() => {
       name: '',
       lastName: '',
       birthday: '',
-      age: 0,
+      age: undefined,
     },
     resolver: yupResolver(authSchema),
   });
@@ -30,6 +30,7 @@ const Authorization = observer(() => {
   const onSubmit = async (data: UserType) => {
     const { name, lastName, birthday, age } = data;
     await addUser({ name, lastName, birthday, age: Number(age) });
+    localStorage.setItem('user', JSON.stringify(data));
     router.push('/');
   };
 
